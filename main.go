@@ -52,7 +52,7 @@ func main() {
 
 func SanitizeBranchName(input string) string {
 	// Remove all special characters using regular expression
-	reg := regexp.MustCompile("[^a-zA-Z0-9 ]+")
+	reg := regexp.MustCompile("[^a-zA-Z0-9 -]+")
 	input = reg.ReplaceAllString(input, "")
 
 	// Replace spaces with dashes
