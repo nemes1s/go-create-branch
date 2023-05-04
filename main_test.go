@@ -10,8 +10,10 @@ import (
 var (
 	input1    = "Test branch name"
 	input2    = "Test112()*&^%#@! branch name 2"
+	input3    = "Test-dashed-branch-name"
 	expected1 = "test-branch-name"
 	expected2 = "test112-branch-name-2"
+	expected3 = "test-dashed-branch-name"
 )
 
 func Setup() {
@@ -48,12 +50,18 @@ func TestMainFunc(t *testing.T) {
 }
 
 func TestSanitizeBranchName(t *testing.T) {
-
-	if SanitizeBranchName(input1) != expected1 {
-		t.Errorf("SanitizeBranchName(%s) != %s", input1, expected1)
+	result1 := SanitizeBranchName(input1)
+	result2 := SanitizeBranchName(input2)
+	result3 := SanitizeBranchName(input3)
+	if result1 != expected1 {
+		t.Errorf("SanitizeBranchName(%s) != %s, Actually got: %s", input1, expected1, result1)
 	}
 
-	if SanitizeBranchName(input2) != expected2 {
-		t.Errorf("SanitizeBranchName(\"%s\") != %s", input2, expected2)
+	if result2 != expected2 {
+		t.Errorf("SanitizeBranchName(\"%s\") != %s, Actually got: %s", input2, expected2, result2)
+	}
+
+	if result3 != expected3 {
+		t.Errorf("SanitizeBranchName(\"%s\") != %s, Actually got: %s", input3, expected3, result3)
 	}
 }
