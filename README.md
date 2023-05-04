@@ -1,6 +1,6 @@
 # Go Create Branch
 
-Go Create Branch is a simple command-line tool written in Golang that creates a Git branch with a sanitized name.
+Go Create Branch is a simple command-line tool written in Golang that creates a Git branch with a sanitized name leaving only letters and numbers as well as replacing all spaces with a dash.
 
 ## Installation
 
