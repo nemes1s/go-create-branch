@@ -8,6 +8,11 @@ import (
 	"strings"
 )
 
+const (
+	// Version of the application
+	Version = "1.0.0"
+)
+
 func main() {
 	// Read input string from command line arguments
 	input := os.Args[len(os.Args)-1]
@@ -57,6 +62,9 @@ func SanitizeBranchName(input string) string {
 
 	// Replace spaces with dashes
 	input = strings.ReplaceAll(input, " ", "-")
+
+	reg = regexp.MustCompile("-{2,}")
+	input = reg.ReplaceAllString(input, "-")
 
 	// Convert to lowercase
 	input = strings.ToLower(input)

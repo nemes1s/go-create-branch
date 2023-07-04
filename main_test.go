@@ -11,9 +11,11 @@ var (
 	input1    = "Test branch name"
 	input2    = "Test112()*&^%#@! branch name 2"
 	input3    = "Test-dashed-branch-name"
+	input4    = "Test with -> and spaces"
 	expected1 = "test-branch-name"
 	expected2 = "test112-branch-name-2"
 	expected3 = "test-dashed-branch-name"
+	expected4 = "test-with-and-spaces"
 )
 
 func Setup() {
@@ -53,6 +55,7 @@ func TestSanitizeBranchName(t *testing.T) {
 	result1 := SanitizeBranchName(input1)
 	result2 := SanitizeBranchName(input2)
 	result3 := SanitizeBranchName(input3)
+	result4 := SanitizeBranchName(input4)
 	if result1 != expected1 {
 		t.Errorf("SanitizeBranchName(%s) != %s, Actually got: %s", input1, expected1, result1)
 	}
@@ -63,5 +66,9 @@ func TestSanitizeBranchName(t *testing.T) {
 
 	if result3 != expected3 {
 		t.Errorf("SanitizeBranchName(\"%s\") != %s, Actually got: %s", input3, expected3, result3)
+	}
+
+	if result4 != expected4 {
+		t.Errorf("SanitizeBranchName(\"%s\") != %s, Actually got: %s", input4, expected4, result4)
 	}
 }
