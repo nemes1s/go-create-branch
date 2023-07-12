@@ -10,6 +10,16 @@ Make sure you have Golang installed on your machine.
 go get github.com/username/go-create-branch
 ```
 
+### Alternative installation
+
+```
+git clone git@github.com:nemes1s/go-create-branch.git
+
+cd go-create-branch
+
+go install .
+```
+
 ## Usage
 
 To use Go Create Branch, run the following command:
