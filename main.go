@@ -43,7 +43,7 @@ func main() {
 	}
 
 	if inputFlag == "" {
-		input = flag.Arg(0)
+		input = strings.Join(flag.Args(), "-")
 	} else {
 		input = inputFlag
 	}
