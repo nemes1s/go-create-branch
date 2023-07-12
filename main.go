@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
@@ -15,7 +16,37 @@ const (
 
 func main() {
 	// Read input string from command line arguments
-	input := os.Args[len(os.Args)-1]
+	var inputFlag string
+	var input string
+
+	var versionFlag bool
+	var helpFlag bool
+
+	flag.BoolVar(&helpFlag, "help", false, "Print help information")
+	flag.BoolVar(&versionFlag, "version", false, "Print version information")
+	flag.StringVar(&inputFlag, "name", "", "Branch name to create")
+
+	flag.Parse()
+
+	if versionFlag {
+		fmt.Println("go-create-branch version:", Version)
+		return
+	}
+
+	if helpFlag {
+		fmt.Println("go-create-branch version:", Version)
+		fmt.Println("---------------------------------")
+		fmt.Println("Usage: go-create-branch \"branchname\"")
+		fmt.Println("---------------------------------")
+		flag.PrintDefaults()
+		return
+	}
+
+	if inputFlag == "" {
+		input = flag.Arg(0)
+	} else {
+		input = inputFlag
+	}
 
 	fmt.Println("Input string:", input)
 
@@ -29,7 +60,7 @@ func main() {
 	}
 
 	input = SanitizeBranchName(input)
-	fmt.Println(input)
+	fmt.Println("Sanitized string:", input)
 	// Check if Git branch already exists
 	out, err := exec.Command("git", "branch", "--list", input).Output()
 
