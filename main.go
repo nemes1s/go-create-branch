@@ -87,6 +87,12 @@ func main() {
 }
 
 func SanitizeBranchName(input string) string {
+	//Replace newlines with spaces
+	input = strings.ReplaceAll(input, "\n", " ")
+
+	//Trim leading and trailing spaces
+	input = strings.TrimSpace(input)
+
 	// Remove all special characters using regular expression
 	reg := regexp.MustCompile("[^a-zA-Z0-9 -]+")
 	input = reg.ReplaceAllString(input, "")
@@ -96,6 +102,9 @@ func SanitizeBranchName(input string) string {
 
 	reg = regexp.MustCompile("-{2,}")
 	input = reg.ReplaceAllString(input, "-")
+
+	//Trim leading and trailing dashes
+	input = strings.Trim(input, "-")
 
 	// Convert to lowercase
 	input = strings.ToLower(input)

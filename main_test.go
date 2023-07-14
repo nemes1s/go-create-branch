@@ -9,17 +9,32 @@ import (
 
 var (
 	input1    = "Test branch name"
-	input2    = "Test112()*&^%#@! branch name 2"
-	input3    = "Test-dashed-branch-name"
-	input4    = "Test with -> and spaces"
 	expected1 = "test-branch-name"
-	expected2 = "test112-branch-name-2"
-	expected3 = "test-dashed-branch-name"
-	expected4 = "test-with-and-spaces"
 )
 
-func Setup() {
+var testMap = map[string]string{
+	"Test branch name":             "test-branch-name",
+	"Test112()*&^%#@! branch name": "test112-branch-name",
+	"Test-dashed-branch-name":      "test-dashed-branch-name",
+	"Test with -> and spaces":      "test-with-and-spaces",
+	`
+		Hello
+		branch
+		world
+		!
+	`: "hello-branch-world",
+}
 
+func Setup() {
+	for _, expected := range testMap {
+		exec.Command("git", "branch", "-D", expected).Run()
+	}
+}
+
+func Teardown() {
+	for _, expected := range testMap {
+		exec.Command("git", "branch", "-D", expected).Run()
+	}
 }
 
 func TestMain(m *testing.M) {
@@ -28,13 +43,15 @@ func TestMain(m *testing.M) {
 
 	current, _ := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").Output()
 	exec.Command("git", "checkout", "main").Run()
-	exec.Command("git", "branch", "-D", expected1).Run()
-	exec.Command("git", "branch", "-D", expected2).Run()
+
+	Setup()
 
 	// Run the tests
 	code := m.Run()
 
 	exec.Command("git", "checkout", strings.TrimSpace(string(current))).Run()
+
+	Teardown()
 
 	os.Exit(code)
 }
@@ -52,23 +69,10 @@ func TestMainFunc(t *testing.T) {
 }
 
 func TestSanitizeBranchName(t *testing.T) {
-	result1 := SanitizeBranchName(input1)
-	result2 := SanitizeBranchName(input2)
-	result3 := SanitizeBranchName(input3)
-	result4 := SanitizeBranchName(input4)
-	if result1 != expected1 {
-		t.Errorf("SanitizeBranchName(%s) != %s, Actually got: %s", input1, expected1, result1)
-	}
-
-	if result2 != expected2 {
-		t.Errorf("SanitizeBranchName(\"%s\") != %s, Actually got: %s", input2, expected2, result2)
-	}
-
-	if result3 != expected3 {
-		t.Errorf("SanitizeBranchName(\"%s\") != %s, Actually got: %s", input3, expected3, result3)
-	}
-
-	if result4 != expected4 {
-		t.Errorf("SanitizeBranchName(\"%s\") != %s, Actually got: %s", input4, expected4, result4)
+	for input, expected := range testMap {
+		result := SanitizeBranchName(input)
+		if result != expected {
+			t.Errorf("SanitizeBranchName(%s) != %s, Actually got: %s", input, expected, result)
+		}
 	}
 }
