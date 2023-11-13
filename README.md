@@ -7,7 +7,7 @@ Go Create Branch is a simple command-line tool written in Golang that creates a 
 Make sure you have Golang installed on your machine.
 
 ```
-go get github.com/username/go-create-branch
+go get github.com/nemes1s/go-create-branch
 ```
 
 ### Alternative installation
